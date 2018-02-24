@@ -19,6 +19,9 @@
  ***************************************************************************/
 
 #include "random.h"
+#ifndef Q_WS_WIN
+#include <unistd.h>
+#endif
 
 
 #if defined(Q_WS_X11) || defined(Q_WS_MAC)
