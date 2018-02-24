@@ -42,14 +42,14 @@ unix : !macx : !isEqual(QMAKE_WIN32,1){
 			DEFINES += GLOBAL_AUTOTYPE
 		}
 	}
-	TARGET = ../bin/keepassx
+        TARGET = ../bin/keepassx-zero
 	target.path = $${PREFIX}/bin
-	datai18n.files = ../share/keepassx/i18n/*.qm
-	datai18n.path = $${PREFIX}/share/keepassx/i18n
-	dataicons.files = ../share/keepassx/icons/*.png
-	dataicons.path = $${PREFIX}/share/keepassx/icons
-	datalicense.files = ../share/keepassx/license.html
-	datalicense.path = $${PREFIX}/share/keepassx
+        datai18n.files = ../share/keepassx-zero/i18n/*.qm
+        datai18n.path = $${PREFIX}/share/keepassx-zero/i18n
+        dataicons.files = ../share/keepassx-zero/icons/*.png
+        dataicons.path = $${PREFIX}/share/keepassx-zero/icons
+        datalicense.files = ../share/keepassx-zero/license.html
+        datalicense.path = $${PREFIX}/share/keepassx-zero
 	
 	shareapp.files = ../share/applications/*.desktop
 	shareapp.path = $${PREFIX}/share/applications
@@ -80,9 +80,9 @@ unix : !macx : !isEqual(QMAKE_WIN32,1){
 #-------------------------------------------------------------------------------
 macx {
 	isEmpty(PREFIX): PREFIX = /Applications
-	TARGET = ../bin/KeePassX
+        TARGET = ../bin/KeePassX-Zero
 	target.path = $${PREFIX}
-	data.files += ../share/keepassx
+        data.files += ../share/keepassx-zero
 	data.path = Contents/Resources
 	INSTALLS += data
 	LIBS += -framework CoreFoundation
@@ -114,10 +114,10 @@ macx {
 #-------------------------------------------------------------------------------
 isEqual(QMAKE_WIN32,1){
 	CONFIG += windows
-	isEmpty(PREFIX): PREFIX = "C:/Program\ files/KeePassX"
-	TARGET = ../bin/KeePassX
+        isEmpty(PREFIX): PREFIX = "C:/Program\ files/KeePassX Zero"
+        TARGET = ../bin/KeePassX-Zero
 	target.path = $${PREFIX}
-	data.files += ../share/keepassx/*
+        data.files += ../share/keepassx-zero/*
 	data.path = $${PREFIX}/share
 	INSTALLS += data
 	win32-msvc*: LIBS += advapi32.lib
@@ -337,8 +337,8 @@ RESOURCES += res/resources.qrc
 
 #exists($$QMAKE_LRELEASE) {
 #	updateqm.input = TRANSLATIONS_COMPILE
-#	updateqm.output = ../share/keepassx/i18n/${QMAKE_FILE_BASE}.qm
-#	updateqm.commands = $$QMAKE_LRELEASE ${QMAKE_FILE_IN} -qm ../share/keepassx/i18n/${QMAKE_FILE_BASE}.qm
+#	updateqm.output = ../share/keepassx-zero/i18n/${QMAKE_FILE_BASE}.qm
+#	updateqm.commands = $$QMAKE_LRELEASE ${QMAKE_FILE_IN} -qm ../share/keepassx-zero/i18n/${QMAKE_FILE_BASE}.qm
 #	updateqm.CONFIG += no_link
 #	
 #	QMAKE_EXTRA_COMPILERS += updateqm

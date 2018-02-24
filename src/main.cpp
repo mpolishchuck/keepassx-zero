@@ -73,7 +73,7 @@ int main(int argc, char **argv)
 	AppDir = QApplication::applicationFilePath();
 	AppDir.truncate(AppDir.lastIndexOf("/"));
 #if defined(Q_WS_X11)
-	DataDir = AppDir+"/../share/keepassx";
+    DataDir = AppDir+"/../share/keepassx-zero";
 	if (!QFile::exists(DataDir) && QFile::exists(AppDir+"/share"))
 		DataDir = AppDir+"/share";
 	const char* env = getenv("XDG_CONFIG_HOME");
@@ -87,16 +87,16 @@ int main(int argc, char **argv)
 		else
 			HomeDir = QDir::homePath() + '/' + qenv;
 	}
-	HomeDir += "/keepassx";
+    HomeDir += "/keepassx-zero";
 #elif defined(Q_WS_MAC)
-	HomeDir = QDir::homePath()+"/.keepassx";
-	DataDir = AppDir+"/../Resources/keepassx";
+    HomeDir = QDir::homePath()+"/.keepassx-zero";
+    DataDir = AppDir+"/../Resources/keepassx-zero";
 #else //Q_WS_WIN
 	HomeDir = qtWindowsConfigPath(CSIDL_APPDATA);
 	if(!HomeDir.isEmpty() && QFile::exists(HomeDir))
-		HomeDir = QDir::fromNativeSeparators(HomeDir)+"/KeePassX";
+        HomeDir = QDir::fromNativeSeparators(HomeDir)+"/KeePassX Zero";
 	else
-		HomeDir = QDir::homePath()+"/KeePassX";
+        HomeDir = QDir::homePath()+"/KeePassX Zero";
 	
 	DataDir = AppDir+"/share";
 #endif
@@ -128,7 +128,7 @@ int main(int argc, char **argv)
 
 #ifdef Q_WS_X11
 	{
-		QString OldHomeDir = QDir::homePath()+"/.keepassx";
+        QString OldHomeDir = QDir::homePath()+"/.keepassx-zero";
 		if (args.configLocation().isEmpty() && QFile::exists(OldHomeDir+"/config") && !QFile::exists(HomeDir+"/config")) {
 			QFile::rename(OldHomeDir+"/config", HomeDir+"/config.ini");
 			if (QDir(OldHomeDir).entryList(QDir::AllEntries|QDir::NoDotAndDotDot|QDir::Hidden|QDir::System).count()==0)
@@ -282,7 +282,7 @@ bool CmdLineArgs::parse(const QStringList& argv){
 
 void CmdLineArgs::printHelp(){
 	cerr << "KeePassX " << APP_VERSION << endl;
-	cerr << "Usage: keepassx [filename] [options]" << endl;
+    cerr << "Usage: keepassx-zero [filename] [options]" << endl;
 	cerr << "  -help             This Help" << endl;
 	cerr << "  -cfg <CONFIG>     Use specified file for loading/saving the configuration." << endl;
 	cerr << "  -min              Start minimized." << endl;
