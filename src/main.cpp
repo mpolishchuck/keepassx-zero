@@ -137,19 +137,6 @@ int main(int argc, char **argv)
 	else
 		IniFilename=args.configLocation();
 
-#ifdef Q_WS_X11
-	{
-        QString OldHomeDir = QDir::homePath()+"/.keepassx-zero";
-		if (args.configLocation().isEmpty() && QFile::exists(OldHomeDir+"/config") && !QFile::exists(HomeDir+"/config")) {
-			QFile::rename(OldHomeDir+"/config", HomeDir+"/config.ini");
-			if (QDir(OldHomeDir).entryList(QDir::AllEntries|QDir::NoDotAndDotDot|QDir::Hidden|QDir::System).count()==0)
-				QDir().rmdir(OldHomeDir);
-		}
-	}
-#else
-	if (args.configLocation().isEmpty() && QFile::exists(HomeDir+"/config") && !QFile::exists(HomeDir+"/config.ini"))
-		QFile::rename(HomeDir+"/config", HomeDir+"/config.ini");
-#endif
 	config = new KpxConfig(IniFilename);
 	fileDlgHistory.load();
 	
