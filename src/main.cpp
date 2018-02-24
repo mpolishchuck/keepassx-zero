@@ -295,10 +295,11 @@ bool CmdLineArgs::parse(const QStringList& argv){
 void CmdLineArgs::printHelp(){
 	cerr << "KeePassX " << APP_VERSION << endl;
     cerr << "Usage: keepassx-zero [filename] [options]" << endl;
-	cerr << "  -help             This Help" << endl;
-	cerr << "  -cfg <CONFIG>     Use specified file for loading/saving the configuration." << endl;
-	cerr << "  -min              Start minimized." << endl;
-	cerr << "  -lock             Start locked." << endl;
+    cerr << "  -help                This Help" << endl;
+    cerr << "  -cfg <CONFIG>        Use specified file for loading/saving the configuration." << endl;
+    cerr << "  -custom-icon <IMG>   Use specified graphics file to draw it over main icon" << endl;
+    cerr << "  -min                 Start minimized." << endl;
+    cerr << "  -lock                Start locked." << endl;
 }
 
 
