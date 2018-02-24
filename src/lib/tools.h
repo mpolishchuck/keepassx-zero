@@ -57,4 +57,6 @@ QList<Translation> getAllTranslations();
 	QString qtWindowsConfigPath(int type);
 #endif
 
+const QIcon& customizeIcon(const QIcon& source);
+
 #endif //TOOLS_H

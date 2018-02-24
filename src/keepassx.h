@@ -89,6 +89,7 @@ extern KpxConfig *config;
 extern QString AppDir;
 extern QString HomeDir;
 extern QString DataDir;
+extern QString CustomIconPath;
 extern bool TrActive;
 extern QString DetailViewTemplate;
 extern QPixmap *EntryIcons;

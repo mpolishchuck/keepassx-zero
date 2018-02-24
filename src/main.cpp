@@ -41,6 +41,7 @@ KpxConfig *config;
 QString  AppDir;
 QString HomeDir;
 QString DataDir;
+QString CustomIconPath;
 QString PluginLoadError;
 QString DetailViewTemplate;
 bool EventOccurred;
@@ -112,6 +113,16 @@ int main(int argc, char **argv)
 		args.printHelp();
 		return 1;
 	}
+
+    //Get custom icon setting
+    if(!args.customIconLocation().isEmpty()) {
+        if(!QFile(args.customIconLocation()).exists()) {
+            qWarning("Warning: Could not find custom icon '%s'", CSTR(args.customIconLocation()));
+        }
+        else {
+            CustomIconPath = args.customIconLocation();
+        }
+    }
 
 	//Load Config
 	QString IniFilename;
@@ -262,6 +273,20 @@ bool CmdLineArgs::parse(const QStringList& argv){
 			i++;
 			continue;
 		}
+        if(argv[i]=="-custom-icon") {
+            if(argv.size() == i+1){
+                Error="Missing argument for '-custom-icon'.";
+                return false;
+            }
+            if(argv[i+1].left(1)=="-"){
+                Error=QString("Expected a path as argument for '-custom-icon' but got '%1.'").arg(argv[i+1]);
+                return false;
+            }
+            QFileInfo file(argv[i+1]);
+            CustomIconLocation=file.absoluteFilePath();
+            i++;
+            continue;
+        }
 		if(argv[i]=="-min"){
 			StartMinimized=true;
 			continue;

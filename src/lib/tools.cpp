@@ -407,3 +407,45 @@ QString qtWindowsConfigPath(int type)
 	return result;
 }
 #endif // Q_OS_WIN
+
+const QIcon& customizeIcon(const QIcon& source) {
+    // Do not convert anything if user has not requested a custom icon
+    if (CustomIconPath.isEmpty()) {
+        return source;
+    }
+
+    QIcon *newIcon = new QIcon();
+
+    // Collect iteration entities
+    // FIXME: Maybe there is better way to iterate over enums?
+    QList<QSize> sizes = source.availableSizes();
+    QList<QIcon::Mode> modes;
+    modes.append(QIcon::Normal);
+    modes.append(QIcon::Disabled);
+    modes.append(QIcon::Active);
+    modes.append(QIcon::Selected);
+    QList<QIcon::State> states;
+    states.append(QIcon::Off);
+    states.append(QIcon::On);
+
+    foreach (QSize size, sizes) {
+        // Prepare custom icon for this size
+        // Let's say custom icon has a half of original size of the current icon
+        QSize customIconSize(size.width() * 0.6, size.height() *0.6);
+        QPoint customIconPosition(0, size.height() * 0.4);
+        QPixmap customIcon = QPixmap(CustomIconPath);
+        customIcon = customIcon.scaled(customIconSize);
+
+        foreach (QIcon::Mode mode, modes) {
+            foreach (QIcon::State state, states) {
+                QPixmap pixmap = source.pixmap(size, mode, state);
+                QPainter *painter = new QPainter(&pixmap);
+                painter->drawPixmap(customIconPosition, customIcon);
+                delete painter;
+                newIcon->addPixmap(pixmap, mode, state);
+            }
+        }
+    }
+
+    return *newIcon;
+}
