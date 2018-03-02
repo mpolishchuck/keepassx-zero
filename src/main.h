@@ -35,7 +35,7 @@ public:
 	QString error() {return Error;}
 	QString file() {return File;}
 	QString configLocation() {return ConfigLocation;}
-    QString customIconLocation() {return CustomIconLocation;}
+	QString customIconLocation() {return CustomIconLocation;}
 	QString language() {return Language;}
 	bool startMinimized() {return StartMinimized;}
 	bool startLocked() {return StartLocked;}
@@ -45,7 +45,7 @@ private:
 	QString Error;
 	QString File;
 	QString ConfigLocation;
-    QString CustomIconLocation;
+	QString CustomIconLocation;
 	QString Language;
 	bool StartMinimized;
 	bool StartLocked;

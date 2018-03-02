@@ -74,7 +74,7 @@ int main(int argc, char **argv)
 	AppDir = QApplication::applicationFilePath();
 	AppDir.truncate(AppDir.lastIndexOf("/"));
 #if defined(Q_WS_X11)
-    DataDir = AppDir+"/../share/keepassx-zero";
+	DataDir = AppDir+"/../share/keepassx-zero";
 	if (!QFile::exists(DataDir) && QFile::exists(AppDir+"/share"))
 		DataDir = AppDir+"/share";
 	const char* env = getenv("XDG_CONFIG_HOME");
@@ -88,16 +88,16 @@ int main(int argc, char **argv)
 		else
 			HomeDir = QDir::homePath() + '/' + qenv;
 	}
-    HomeDir += "/keepassx-zero";
+	HomeDir += "/keepassx-zero";
 #elif defined(Q_WS_MAC)
-    HomeDir = QDir::homePath()+"/.keepassx-zero";
-    DataDir = AppDir+"/../Resources/keepassx-zero";
+	HomeDir = QDir::homePath()+"/.keepassx-zero";
+	DataDir = AppDir+"/../Resources/keepassx-zero";
 #else //Q_WS_WIN
 	HomeDir = qtWindowsConfigPath(CSIDL_APPDATA);
 	if(!HomeDir.isEmpty() && QFile::exists(HomeDir))
-        HomeDir = QDir::fromNativeSeparators(HomeDir)+"/KeePassX Zero";
+		HomeDir = QDir::fromNativeSeparators(HomeDir)+"/KeePassX Zero";
 	else
-        HomeDir = QDir::homePath()+"/KeePassX Zero";
+		HomeDir = QDir::homePath()+"/KeePassX Zero";
 	
 	DataDir = AppDir+"/share";
 #endif
@@ -114,15 +114,15 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
-    //Get custom icon setting
-    if(!args.customIconLocation().isEmpty()) {
-        if(!QFile(args.customIconLocation()).exists()) {
-            qWarning("Warning: Could not find custom icon '%s'", CSTR(args.customIconLocation()));
-        }
-        else {
-            CustomIconPath = args.customIconLocation();
-        }
-    }
+	//Get custom icon setting
+	if(!args.customIconLocation().isEmpty()) {
+		if(!QFile(args.customIconLocation()).exists()) {
+			qWarning("Warning: Could not find custom icon '%s'", CSTR(args.customIconLocation()));
+		}
+		else {
+			CustomIconPath = args.customIconLocation();
+		}
+	}
 
 	//Load Config
 	QString IniFilename;
@@ -260,20 +260,20 @@ bool CmdLineArgs::parse(const QStringList& argv){
 			i++;
 			continue;
 		}
-        if(argv[i]=="-custom-icon") {
-            if(argv.size() == i+1){
-                Error="Missing argument for '-custom-icon'.";
-                return false;
-            }
-            if(argv[i+1].left(1)=="-"){
-                Error=QString("Expected a path as argument for '-custom-icon' but got '%1.'").arg(argv[i+1]);
-                return false;
-            }
-            QFileInfo file(argv[i+1]);
-            CustomIconLocation=file.absoluteFilePath();
-            i++;
-            continue;
-        }
+		if(argv[i]=="-custom-icon") {
+			if(argv.size() == i+1){
+				Error="Missing argument for '-custom-icon'.";
+				return false;
+			}
+			if(argv[i+1].left(1)=="-"){
+				Error=QString("Expected a path as argument for '-custom-icon' but got '%1.'").arg(argv[i+1]);
+				return false;
+			}
+			QFileInfo file(argv[i+1]);
+			CustomIconLocation=file.absoluteFilePath();
+			i++;
+			continue;
+		}
 		if(argv[i]=="-min"){
 			StartMinimized=true;
 			continue;
@@ -294,12 +294,12 @@ bool CmdLineArgs::parse(const QStringList& argv){
 
 void CmdLineArgs::printHelp(){
 	cerr << "KeePassX " << APP_VERSION << endl;
-    cerr << "Usage: keepassx-zero [filename] [options]" << endl;
-    cerr << "  -help                This Help" << endl;
-    cerr << "  -cfg <CONFIG>        Use specified file for loading/saving the configuration." << endl;
-    cerr << "  -custom-icon <IMG>   Use specified graphics file to draw it over main icon" << endl;
-    cerr << "  -min                 Start minimized." << endl;
-    cerr << "  -lock                Start locked." << endl;
+	cerr << "Usage: keepassx-zero [filename] [options]" << endl;
+	cerr << "  -help                This Help" << endl;
+	cerr << "  -cfg <CONFIG>        Use specified file for loading/saving the configuration." << endl;
+	cerr << "  -custom-icon <IMG>   Use specified graphics file to draw it over main icon" << endl;
+	cerr << "  -min                 Start minimized." << endl;
+	cerr << "  -lock                Start locked." << endl;
 }
 
 
