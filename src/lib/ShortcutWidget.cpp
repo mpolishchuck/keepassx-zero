@@ -19,7 +19,7 @@
 
 #include "ShortcutWidget.h"
 
-#if defined(GLOBAL_AUTOTYPE) && defined(Q_WS_X11)
+#if defined(GLOBAL_AUTOTYPE) && defined(Q_OS_LINUX)
 
 #include <QKeyEvent>
 #include <QX11Info>

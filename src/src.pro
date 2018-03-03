@@ -1,6 +1,9 @@
 
+TEMPLATE += app
 CONFIG = qt uic resources thread stl warn_on
-QT += xml
+QT += core gui xml
+
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 *-g++ : QMAKE_CXXFLAGS_WARN_ON += -Wno-sign-compare
 

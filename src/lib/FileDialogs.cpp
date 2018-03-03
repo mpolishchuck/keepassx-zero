@@ -154,11 +154,7 @@ int QtStandardFileDialogs::getLastFilter(){
 QString FileDlgHistory::getDir(const QString& name){
 	Entry e=History.value(name);
 	if(e.isNull()) {
-#if QT_VERSION >= 0x040400
-		return QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation);
-#else
-		return QDir::homePath();
-#endif
+		return QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
 	}
 	else
 		return e.Dir;

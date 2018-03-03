@@ -21,6 +21,8 @@
 #include <QHeaderView>
 #include <QClipboard>
 #include <QProcess>
+#include <QDrag>
+#include <QMimeData>
 #include <algorithm>
 #include "lib/AutoType.h"
 #include "lib/EntryView.h"
@@ -35,9 +37,9 @@ KeepassEntryView* pEntryView;*/
 KeepassEntryView::KeepassEntryView(QWidget* parent) : QTreeWidget(parent) {
 	ViewMode=Normal;
 	AutoResizeColumns = true;
-	header()->setResizeMode(QHeaderView::Interactive);
+	header()->setSectionResizeMode(QHeaderView::Interactive);
 	header()->setStretchLastSection(false);
-	header()->setClickable(true);
+	header()->setSectionsClickable(true);
 	header()->setCascadingSectionResizes(true);
 	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	retranslateColumns();
@@ -483,7 +485,7 @@ void KeepassEntryView::OnClipboardTimeOut(){
 	if(Clipboard->supportsSelection()){
 		Clipboard->clear(QClipboard::Selection);
 	}
-#ifdef Q_WS_X11
+#ifdef Q_OS_LINUX
 	QProcess::startDetached("dcop klipper klipper clearClipboardHistory");
 	QProcess::startDetached("dbus-send --type=method_call --dest=org.kde.klipper /klipper "
 		"org.kde.klipper.klipper.clearClipboardHistory");

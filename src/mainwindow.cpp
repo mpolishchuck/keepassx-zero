@@ -49,7 +49,7 @@ Import_KWalletXml import_KWalletXml;
 Export_Txt export_Txt;
 Export_KeePassX_Xml export_KeePassX_Xml;
 
-KeepassMainWindow::KeepassMainWindow(const QString& ArgFile,bool ArgMin,bool ArgLock,QWidget *parent, Qt::WFlags flags) :QMainWindow(parent,flags){
+KeepassMainWindow::KeepassMainWindow(const QString& ArgFile,bool ArgMin,bool ArgLock,QWidget *parent, Qt::WindowFlags flags) :QMainWindow(parent,flags){
 	ShutingDown=false;
 	IsLocked=false;
 	EventOccurred=true;
@@ -58,7 +58,7 @@ KeepassMainWindow::KeepassMainWindow(const QString& ArgFile,bool ArgMin,bool Arg
 	unlockDlg=NULL;
 	db=NULL;
 	setupUi(this);
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
 	setUnifiedTitleAndToolBarOnMac(true);
 #endif
 #ifdef AUTOTYPE
@@ -85,7 +85,7 @@ KeepassMainWindow::KeepassMainWindow(const QString& ArgFile,bool ArgMin,bool Arg
 	//statusBar()->addWidget(StatusBarSelection,85);
 	statusBar()->setVisible(config->showStatusbar());
 	setStatusBarMsg(StatusBarReady);
-#ifndef Q_WS_MAC
+#ifndef Q_OS_MAC
 	if (config->alwaysOnTop())
 		setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
 #endif
@@ -186,7 +186,7 @@ void KeepassMainWindow::setupConnections(){
 	connect(ViewToolButtonSize22Action,SIGNAL(toggled(bool)), this, SLOT(OnViewToolbarIconSize22(bool)));
 	connect(ViewToolButtonSize28Action,SIGNAL(toggled(bool)), this, SLOT(OnViewToolbarIconSize28(bool)));
 	connect(ViewShowStatusbarAction,SIGNAL(toggled(bool)),statusBar(),SLOT(setVisible(bool)));
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
 	connect(ViewMinimizeAction, SIGNAL(triggered()), SLOT(showMinimized()));
 #endif
 
@@ -327,7 +327,7 @@ void KeepassMainWindow::setupMenus(){
 		case 28: ViewToolButtonSize28Action->setChecked(true); break;
 	}
 	
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
 	ViewMenu->addSeparator();
 	ViewMenu->addAction(ViewMinimizeAction);
 #endif
@@ -378,7 +378,7 @@ void KeepassMainWindow::setupMenus(){
 #ifdef AUTOTYPE
 	EditAutoTypeAction->setShortcut(tr("Ctrl+V"));
 #endif
-#ifdef Q_WS_MAC
+#ifdef Q_OS_MAC
 	FileSaveAsAction->setShortcut(tr("Shift+Ctrl+S"));
 	EditGroupSearchAction->setShortcut(tr("Shift+Ctrl+F"));
 	ViewMinimizeAction->setShortcut(tr("Ctrl+M"));
@@ -726,27 +726,27 @@ void KeepassMainWindow::updateDetailView(){
 	QString templ=DetailViewTemplate;
 	IEntryHandle* entry=((EntryViewItem*)(EntryView->selectedItems()[0]))->EntryHandle;
 
-	templ.replace("%group%", Qt::escape(entry->group()->title()));
-	templ.replace("%title%", Qt::escape(entry->title()));
+	templ.replace("%group%", QString(entry->group()->title()).toHtmlEscaped());
+	templ.replace("%title%", QString(entry->title()).toHtmlEscaped());
 	if (config->hideUsernames())
 		templ.replace("%username%","****");
 	else
-		templ.replace("%username%", Qt::escape(entry->username()));
+		templ.replace("%username%", QString(entry->username()).toHtmlEscaped());
 	if (!config->hidePasswords()) {
 		SecString password=entry->password();
 		password.unlock();
-		templ.replace("%password%", Qt::escape(password.string()));
+		templ.replace("%password%", QString(password.string()).toHtmlEscaped());
 	}
 	else {
 		templ.replace("%password%","****");
 	}
-	templ.replace("%url%", Qt::escape(entry->url()));
-	templ.replace("%creation%", Qt::escape(entry->creation().toString(Qt::SystemLocaleDate)));
-	templ.replace("%lastmod%", Qt::escape(entry->lastMod().toString(Qt::SystemLocaleDate)));
-	templ.replace("%lastaccess%", Qt::escape(entry->lastAccess().toString(Qt::SystemLocaleDate)));
-	templ.replace("%expire%", Qt::escape(entry->expire().toString(Qt::SystemLocaleDate)));
-	templ.replace("%comment%", Qt::escape(entry->comment()).replace("\n","<br/>"));
-	templ.replace("%attachment%", Qt::escape(entry->binaryDesc()));
+	templ.replace("%url%", QString(entry->url()).toHtmlEscaped());
+	templ.replace("%creation%", QString(entry->creation().toString(Qt::SystemLocaleDate)).toHtmlEscaped());
+	templ.replace("%lastmod%", QString(entry->lastMod().toString(Qt::SystemLocaleDate)).toHtmlEscaped());
+	templ.replace("%lastaccess%", QString(entry->lastAccess().toString(Qt::SystemLocaleDate)).toHtmlEscaped());
+	templ.replace("%expire%", QString(entry->expire().toString(Qt::SystemLocaleDate)).toHtmlEscaped());
+	templ.replace("%comment%", QString(entry->comment()).toHtmlEscaped().replace("\n","<br/>"));
+	templ.replace("%attachment%", QString(entry->binaryDesc()).toHtmlEscaped());
 
 	if(entry->expire()!=Date_Never){
 		int secs=QDateTime::currentDateTime().secsTo(entry->expire());
@@ -1112,7 +1112,7 @@ void KeepassMainWindow::hideEvent(QHideEvent* event){
 		if (config->lockOnMinimize() && !IsLocked && FileOpen)
 			OnUnLockWorkspace();
 		if (config->showSysTrayIcon() && config->minimizeTray()){
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
 			QTimer::singleShot(100, this, SLOT(hide()));
 #else
 			hide();
@@ -1127,7 +1127,7 @@ void KeepassMainWindow::hideEvent(QHideEvent* event){
 
 void KeepassMainWindow::showEvent(QShowEvent* event){
 	if (IsLocked && !InUnLock && event->spontaneous()){
-#ifndef Q_WS_MAC
+#ifndef Q_OS_MAC
 		showNormal(); // workaround for some graphic glitches
 #endif
 		OnUnLockWorkspace();
@@ -1155,7 +1155,7 @@ void KeepassMainWindow::OnExtrasSettings(){
 	EntryView->setAlternatingRowColors(config->alternatingRowColors());
 	SysTray->setVisible(config->showSysTrayIcon());
 	menuBookmarks->menuAction()->setVisible(config->featureBookmarks());
-#ifndef Q_WS_MAC
+#ifndef Q_OS_MAC
 	if (config->alwaysOnTop() != oldAlwaysOnTop) {
 		if (config->alwaysOnTop())
 			setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
@@ -1255,7 +1255,7 @@ void KeepassMainWindow::OnSysTrayActivated(QSystemTrayIcon::ActivationReason rea
 			hide();
 		}
 		else{
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
 			QTimer::singleShot(100, this, SLOT(restoreWindow()));
 #else
 			restoreWindow();
@@ -1265,7 +1265,7 @@ void KeepassMainWindow::OnSysTrayActivated(QSystemTrayIcon::ActivationReason rea
 }
 
 void KeepassMainWindow::restoreWindow(){
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
 	if (windowState() & Qt::WindowMaximized)
 		showMaximized();
 	else

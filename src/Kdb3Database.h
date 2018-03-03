@@ -48,6 +48,7 @@ public:
 		friend class Kdb3Database;
 		public:
 			EntryHandle(Kdb3Database* db);
+			virtual ~EntryHandle() {}
 			virtual void setImage(const quint32& ImageID);
 			virtual void setTitle(const QString& Title);
 			virtual void setUrl(const QString& URL);
@@ -93,6 +94,7 @@ public:
 		friend class Kdb3Database;
 		GroupHandle(Kdb3Database* db);
 		public:
+			virtual ~GroupHandle() {}
 			virtual void setTitle(const QString& Title);
 			virtual void setImage(const quint32& ImageId);
 			virtual QString title();
