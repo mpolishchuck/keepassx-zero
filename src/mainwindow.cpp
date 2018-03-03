@@ -243,7 +243,7 @@ void KeepassMainWindow::setupToolbar(){
 }
 
 void KeepassMainWindow::setupIcons(){
-	setWindowIcon(customizeIcon(getIcon("keepassx_large")));
+	setWindowIcon(customizeIcon(getIcon("hires/keepassx")));
 	FileNewAction->setIcon(getIcon("filenew"));
 	FileOpenAction->setIcon(getIcon("fileopen"));
 	FileSaveAction->setIcon(getIcon("filesave"));
@@ -282,7 +282,7 @@ void KeepassMainWindow::setupIcons(){
 	AddThisAsBookmarkAction->setIcon(getIcon("bookmark_this"));
 	AddBookmarkAction->setIcon(getIcon("bookmark_add"));
 	ManageBookmarksAction->setIcon(getIcon("bookmark"));
-	SysTray->setIcon(customizeIcon(getIcon("keepassx")));
+	SysTray->setIcon(customizeIcon(getIcon("hires/keepassx")));
 	if(config->showSysTrayIcon())
 		SysTray->show();
 }
@@ -1371,7 +1371,8 @@ void KeepassMainWindow::setLock(){
 	NormalCentralWidget->setParent(NULL);
 	setCentralWidget(LockedCentralWidget);
 	LockedCentralWidget->setVisible(true);
-	SysTray->setIcon(customizeIcon(getIcon("keepassx_locked")));
+	setWindowIcon(customizeIcon(getIcon("hires/keepassx-locked")));
+	SysTray->setIcon(customizeIcon(getIcon("hires/keepassx-locked")));
 	FileUnLockWorkspaceAction->setText(tr("Un&lock Workspace"));
 	IsLocked=true;
 	updateTrayTooltip();
@@ -1386,7 +1387,8 @@ void KeepassMainWindow::resetLock(){
 	LockedCentralWidget->setParent(NULL);
 	setCentralWidget(NormalCentralWidget);
 	NormalCentralWidget->setVisible(true);
-	SysTray->setIcon(customizeIcon(getIcon("keepassx")));
+	setWindowIcon(customizeIcon(getIcon("hires/keepassx")));
+	SysTray->setIcon(customizeIcon(getIcon("hires/keepassx")));
 	FileUnLockWorkspaceAction->setText(tr("&Lock Workspace"));
 	IsLocked=false;
 	updateTrayTooltip();
